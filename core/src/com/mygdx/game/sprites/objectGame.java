@@ -19,10 +19,12 @@ public class objectGame extends Actor{
     protected Sprite sprite;
     protected Body body;
 
-    float accelX;
-    float accelY;
+    private static float speedBonus = 1;
 
-    World world;
+    private float accelX;
+    private float accelY;
+
+    private World world;
 
     public objectGame(World world){
         this.world = world;
@@ -39,17 +41,66 @@ public class objectGame extends Actor{
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.restitution = restitution;
-        fDef.density = density;
-        fDef.friction = 0.5f;
+        fDef.restitution = restitution; // упругость
+        fDef.density = density; // плотность
+        fDef.friction = 0.5f; // трение
+      //  fDef.filter.groupIndex = 5;
 
         body.createFixture(fDef);
     }
 
-    public  void updete(){
-        accelY = Gdx.input.getAccelerometerY();
-        accelX = Gdx.input.getAccelerometerX();
-
-        body.applyForceToCenter(new Vector2(accelY*10000,-accelX*10000), true);
+    public  void updetePositionSprite(){
+        sprite.setPosition(body.getPosition().x - 20, body.getPosition().y - 20);
+        sprite.setRotation(body.getAngle()  * 60);
     }
+
+    public void updetePositionBody(){
+        if (this.body.getUserData() == "contactAndDead") {
+            sprite.setPosition(-40f , -40f);
+            body.setActive(false);
+
+            world.destroyBody(body);
+            body.setUserData("non");
+            return;
+        }
+        if (this.body.getUserData() == "activBall") {
+            accelY = Gdx.input.getAccelerometerY();
+            accelX = Gdx.input.getAccelerometerX();
+            body.applyForceToCenter(new Vector2(accelY * 12000 * speedBonus, -accelX * 12000 * speedBonus), true);
+
+            updetePositionSprite();
+        }
+    }
+
+    public int updeteCoins(){
+
+        if(body.getUserData() == "coinsNon"){
+            sprite.setPosition(-40f , -40f);
+            body.setActive(false);
+
+            world.destroyBody(body);
+            body.setUserData("non");
+
+            return 1;
+        }
+        return 0;
+    }
+
+
+    public Sprite getSprite(){
+        return sprite;
+    }
+
+    public void setSpeed(float speed){
+        speedBonus = speed;
+    }
+
+    public World getWorld(){
+        return world;
+    }
+
+    public Body getBody(){
+        return body;
+    }
+
 }

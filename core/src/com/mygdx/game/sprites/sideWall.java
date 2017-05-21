@@ -1,5 +1,6 @@
 package com.mygdx.game.sprites;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -21,5 +22,8 @@ public class sideWall extends objectGame {
         ChainShape shape = new ChainShape();
         shape.createChain(new Vector2[]{new Vector2(0,CAMERAWIDTH), new Vector2(0,0), new Vector2(CAMERAHEIGHT, 0), new Vector2(CAMERAHEIGHT, CAMERAWIDTH), new Vector2(0,CAMERAWIDTH)});
         createBody(shape, BodyDef.BodyType.StaticBody, 0.5f, 0.4f);
+
+        sprite = new Sprite(Resource.atl.findRegion("backgroundStandart"));
+       // sprite.setBounds(0, 0, CAMERAHEIGHT, CAMERAWIDTH);
     }
 }

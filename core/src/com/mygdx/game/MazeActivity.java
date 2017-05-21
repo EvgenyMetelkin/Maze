@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.sprites.Resource;
 import com.mygdx.game.states.GameStateManager;
 import com.mygdx.game.states.PlayState;
 
@@ -20,15 +21,15 @@ public class MazeActivity extends ApplicationAdapter {
 
 
 	public static final int CAMERAHEIGHT = 800;
-	public static final int CAMERAWIDTH = 400;
-
-
+	public static final int CAMERAWIDTH = 450;
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 	
 	@Override
 	public void create () {
+		Resource.load();// подгрузка текстур
+
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		Gdx.gl.glClearColor(0.2f, 0, 0, 1);
